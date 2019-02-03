@@ -20,7 +20,7 @@
         >-デバイス特定用characteristicは、属性のパーミッションを暗号化（Encryption）に設定してください。LIFFアプリからLINE Things対応デバイスにアクセスする際は、認証済み鍵によって暗号化された接続でアクセスします。*(https://developers.line.biz/ja/docs/line-things/create-product/ より引用)*
 
     - 基本的には、市販のESP32,obniz などであれば、問題ないそうですが、**raspberry pi**(以下、ラズパイ)では、bluetooth ではうまく作動しないそうなので、ラズパイだけでの開発は諦めたほうがよさそうです。
-    - [LINE Things を使用したデバイス例](https://qiita.com/hktechno/items/bb83cc898c75819b2664#line-things-%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%87%E3%83%90%E3%82%A4%E3%82%B9%E3%81%AE%E4%BD%9C%E4%BE%8B)では、Arduinoで実装していましたが、BLE の開発ができれば、どの言語でも可能です。
+    - [LINE Things を使用したデバイス例](https://github.com/techno/line-things-snippets)では、Arduinoで実装していましたが、BLE の開発ができれば、どの言語でも可能です。
 
 - ## LINE thingsの実装上の注意点
     - LINE ThingsでUUIDの取得する際、curl コマンドを使って、LINE API のサーバーに データを送信しなくてはならない。しかし,コマンドラインから送信してもがなかなかうまくいかない場合がある。その際は、**shell(windows なら batch) やphp などでファイルをあらかじめ作成したのち、POSTした方がいい**。
