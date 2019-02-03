@@ -3,9 +3,9 @@ import requests
 # Line things でWindowsでcurl がうまくいかない場合にこのpythonコードを記述して実行する。
 # また、これは、LIFF側で、デバイスが反応できるようにするための
 
-channel_tolen='' #
+channel_token='' #LINE Developer で生成したchannel token　を記述 
 name='' # 名前は自由に設定可能
-liff_id=''# 
+liff_id=''# LIFF でのhttps://line.api/app/以降のデータ 
 headers = {
     'Authorization': 'Bearer {}'.format(channel_token),
     'Content-Type':'application/json'
