@@ -18,7 +18,10 @@ let clickCount = 0;
 // -------------- //
 // On window load //
 // -------------- //
-$('window').on('load',()=>initializeApp();)
+
+window.onload = () => {
+    initializeApp();
+};
 
 // ----------------- //
 // Handler functions //
@@ -36,13 +39,13 @@ function handlerToggleLed() {
 // ------------ //
 
 function uiToggleLedButton(state) {
-    const el = $("#btn-led-toggle");
-    el.text = state ? "Switch LED OFF" : "Switch LED ON";
+    const el = document.getElementById("btn-led-toggle");
+    el.innerText = state ? "Switch LED OFF" : "Switch LED ON";
 
     if (state) {
-      el.addClass("led-on");
+      el.classList.add("led-on");
     } else {
-      el.removeClass("led-on");
+      el.classList.remove("led-on");
     }
 }
 
