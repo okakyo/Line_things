@@ -48,59 +48,57 @@ function uiToggleLedButton(state) {
 
 function uiCountPressButton() {
     clickCount++;
-
-    const el = document.getElementById("click-count");
-    el.innerText = clickCount;
+    $("#click-count").text = clickCount;
 }
 
 function uiToggleStateButton(pressed) {
-    const el = document.getElementById("btn-state");
+    const el = $("#btn-state");
 
     if (pressed) {
-        el.classList.add("pressed");
-        el.innerText = "Pressed";
+        el.addClass("pressed");
+        el.text = "Pressed";
     } else {
-        el.classList.remove("pressed");
-        el.innerText = "Released";
+        el.removeClass("pressed");
+        el.text = "Released";
     }
 }
 
 function uiToggleDeviceConnected(connected) {
-    const elStatus = document.getElementById("status");
-    const elControls = document.getElementById("controls");
+    const elStatus = $("#status");
+    const elControls = $("#controls");
 
-    elStatus.classList.remove("error");
+    elStatus.removeClass("error");
 
     if (connected) {
         // Hide loading animation
         uiToggleLoadingAnimation(false);
         // Show status connected
-        elStatus.classList.remove("inactive");
-        elStatus.classList.add("success");
-        elStatus.innerText = "Device connected";
+        elStatus.removeClass("inactive");
+        elStatus.addClass("success");
+        elStatus.text = "Device connected";
         // Show controls
-        elControls.classList.remove("hidden");
+        elControls.removeClass("hidden");
     } else {
         // Show loading animation
         uiToggleLoadingAnimation(true);
         // Show status disconnected
-        elStatus.classList.remove("success");
-        elStatus.classList.add("inactive");
-        elStatus.innerText = "Device disconnected";
+        elStatus.removeClass("success");
+        elStatus.addClass("inactive");
+        elStatus.text = "Device disconnected";
         // Hide controls
-        elControls.classList.add("hidden");
+        elControls.addClass("hidden");
     }
 }
 
 function uiToggleLoadingAnimation(isLoading) {
-    const elLoading = document.getElementById("loading-animation");
+    const elLoading = $("#loading-animation");
 
     if (isLoading) {
         // Show loading animation
-        elLoading.classList.remove("hidden");
+        elLoading.removeClass("hidden");
     } else {
         // Hide loading animation
-        elLoading.classList.add("hidden");
+        elLoading.addClass("hidden");
     }
 }
 
