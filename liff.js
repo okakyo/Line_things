@@ -18,10 +18,7 @@ let clickCount = 0;
 // -------------- //
 // On window load //
 // -------------- //
-//$('window').on(()=>{initializeApp();});
-window.onload = () => {
-    initializeApp();
-};
+$('window').on(()=>{initializeApp();});
 
 // ----------------- //
 // Handler functions //
