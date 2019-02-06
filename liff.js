@@ -40,7 +40,7 @@ function handlerToggleLed() {
 
 function uiToggleLedButton(state) {
     const el = $("#btn-led-toggle");
-    el.text = state ? "Switch LED OFF" : "Switch LED ON";
+    el.text(state ? "Switch LED OFF" : "Switch LED ON");
 
     if (state) {
       el.addClass("led-on");
@@ -57,70 +57,70 @@ function uiCountPressButton() {
 }
 
 function uiToggleStateButton(pressed) {
-    const el = document.getElementById("btn-state");
+    const el =$("#btn-state");
 
     if (pressed) {
-        el.classList.add("pressed");
-        el.innerText = "Pressed";
+        el.addClass("pressed");
+        el.text("Pressed");
     } else {
-        el.classList.remove("pressed");
-        el.innerText = "Released";
+        el.removeClass("pressed");
+        el.text("Released");
     }
 }
 
 function uiToggleDeviceConnected(connected) {
-    const elStatus = document.getElementById("status");
-    const elControls = document.getElementById("controls");
+    const elStatus = $("#status");
+    const elControls =$("#controls");
 
-    elStatus.classList.remove("error");
+    elStatus.removeClass("error");
 
     if (connected) {
         // Hide loading animation
         uiToggleLoadingAnimation(false);
         // Show status connected
-        elStatus.classList.remove("inactive");
-        elStatus.classList.add("success");
-        elStatus.innerText = "Device connected";
+        elStatus.removeClass("inactive");
+        elStatus.addClass("success");
+        elStatus.text("Device connected");
         // Show controls
-        elControls.classList.remove("hidden");
+        elControls.removeClass("hidden");
     } else {
         // Show loading animation
         uiToggleLoadingAnimation(true);
         // Show status disconnected
-        elStatus.classList.remove("success");
-        elStatus.classList.add("inactive");
-        elStatus.innerText = "Device disconnected";
+        elStatus.removeClass("success");
+        elStatus.addClass("inactive");
+        elStatus.text("Device disconnected");
         // Hide controls
-        elControls.classList.add("hidden");
+        elControls.addClass("hidden");
     }
 }
 
 function uiToggleLoadingAnimation(isLoading) {
-    const elLoading = document.getElementById("loading-animation");
+    const elLoading = $("#loading-animation");
 
     if (isLoading) {
         // Show loading animation
-        elLoading.classList.remove("hidden");
+        elLoading.removeClass("hidden");
     } else {
         // Hide loading animation
-        elLoading.classList.add("hidden");
+        elLoading.addClass("hidden");
     }
 }
 
 function uiStatusError(message, showLoadingAnimation) {
     uiToggleLoadingAnimation(showLoadingAnimation);
 
-    const elStatus = document.getElementById("status");
-    const elControls = document.getElementById("controls");
+    const elStatus =$("#status");
+    const elControls = $("#controls");
 
     // Show status error
-    elStatus.classList.remove("success");
-    elStatus.classList.remove("inactive");
-    elStatus.classList.add("error");
-    elStatus.innerText = message;
+    elStatus.removeClass("success");
+    elStatus.removeClass("inactive");
+    elStatus.addClass("error");
+    elStatus.text(message);
 
     // Hide controls
-    elControls.classList.add("hidden");
+    elControls.addClass("hidden");
 }
 
 function makeErrorMsg(errorObj) {
@@ -168,8 +168,8 @@ function liffRequestDevice() {
 
 function liffConnectToDevice(device) {
     device.gatt.connect().then(() => {
-        document.getElementById("device-name").innerText = device.name;
-        document.getElementById("device-id").innerText = device.id;
+        $("#device-name").text(device.name);
+        $("#device-id").text(device.id);
 
         // Show status connected
         uiToggleDeviceConnected(true);
