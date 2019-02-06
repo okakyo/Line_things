@@ -4,12 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src=" https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="things.js"></script>
     <title>Start_LIFF</title>
 </head>
 <body>
-    
+    <h2>Robot Controller</h2>
+    <hr/>
+    <p>
+        <img id='loading' src="loading.gif" height="20px">
+        <span id='waiting'>接続できるデバイスを確認中</span>
+    </p>
+    <div id='hidden'>
+        <p>
+            <h2>名前</h2>
+            <h2 id='device_name'></h2>
+        </p>
+        <table>
+            <button>オーダー１</button>
+            <button>オーダー２</button>
+            <button>オーダー３</button>
+            <button>オーダー４</button>
+            <button>オーダー５</button>
+            <button>オーダー６</button>
+        </table>
+
+    </div>
 </body>
 </html>

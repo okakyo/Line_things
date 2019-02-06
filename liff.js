@@ -105,17 +105,17 @@ function uiToggleLoadingAnimation(isLoading) {
 function uiStatusError(message, showLoadingAnimation) {
     uiToggleLoadingAnimation(showLoadingAnimation);
 
-    const elStatus = document.getElementById("status");
-    const elControls = document.getElementById("controls");
+    const elStatus = $("#status");
+    const elControls = $("#controls");
 
     // Show status error
-    elStatus.classList.remove("success");
-    elStatus.classList.remove("inactive");
-    elStatus.classList.add("error");
-    elStatus.innerText = message;
+    elStatus.removeClass("success");
+    elStatus.removeClass("inactive");
+    elStatus.addClass("error");
+    elStatus.text = message;
 
     // Hide controls
-    elControls.classList.add("hidden");
+    elControls.addClass("hidden");
 }
 
 function makeErrorMsg(errorObj) {
@@ -163,8 +163,8 @@ function liffRequestDevice() {
 
 function liffConnectToDevice(device) {
     device.gatt.connect().then(() => {
-        document.getElementById("device-name").innerText = device.name;
-        document.getElementById("device-id").innerText = device.id;
+        $("#device-name").text = device.name;
+        $("#device-id").text = device.id;
 
         // Show status connected
         uiToggleDeviceConnected(true);
