@@ -26,25 +26,27 @@
 #define MOTOR_3=9
 #define MOTOR_4=11
 
-
 //The setting of BLE Server
+
 BLEServer *thingsServer;
 BLESecurity *thingsSecurity;
 BLEService *userService;
 BLEService *psdiService;
 BLECharacteristic *psdiCharacteristic;
 BLECharacteristic *writeCharacteristic;
-BLECHaracteristic *notifyCharacteristic;
+BLECharacteristic *notifyCharacteristic;
 
 bool deviceConnected=false;
 bool oldDeviceConnected=false;
-volatile int btnAction=0;
-
 
 void setup() {
   Serial.begin(115200);
-  pinMode(LED1,OUTPUT);
-  pinMode();
+  
+  pinMode(MOTOR_1,OUTPUT);
+  pinMode(MOTOT_2,OUTPUT);
+  pinMode(MOTOR_3,OUTPUT);
+  pinMode(MOTOR_4,OUTPUT);
+  
   setupServices();
   startAdvertising();
 }
@@ -60,10 +62,25 @@ void setupServices(void){
   thingsServer->setCallbacks(new serverCallbacks());
 
   //Setup Services
+  
   userService=thingsStarter->createService(USER_SERVICE_UUID);
-  //Setup PSDI Services
 
+  writeCharacteristic=userService->createCharacteristic(WRITE_CHARACTERISTIC_UUID,BLECharacteristic::PROPERTY_WRITE);
+  writeCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED|ESP_GGATT_PREM_WRITE_ENCRIPTED);
+  writeCharacteristic->setCallbacks(new writeCallbacks());
+
+  notifyCharacteristic=userService->createCharacteristic(WRITE_CHARACTERISTIC_UUID,BLECharacteristic)
+  notifyCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED|ESP_GGATT_PREM_WRITE_ENCRIPTED)
+  //Setup PSDI Services
+  
+  psdiService=thingsStarter->createService(PSDI_SERVICE_UUID);
+  psdiCharacteristic=psdiService->createCharacteristic(PSDI_CHARACTERISTIC_UUID,BLECharacteristic::PROPERTY_READ);
+  psdiCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED|ESP_GGATT_PREM_WRITE_ENCRIPTED);
+  
   //Set PSDI(Product specofoc Device ID) value
+  uint64_t macAddress=ESP.getEfuseMac();
+  psdiCharacteristic->setValue((uint8_t*) &macAddress,sizeof(macAddress));
+  
   //Start BLE Services
   userService->start();
   psdiService->start();
@@ -75,5 +92,5 @@ void startAdvertising(void){
   
   thingsServer->getAdvertising()->addServiceUUID(userService->getUUID());
   thingsServer->getAdvertising()->setScanResponseData(scanResponseData);
-  thingsServer->getAdvevrtising()->start();
+  thingsServer->getAdvertising()->start();
   }
