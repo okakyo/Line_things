@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src=" https://d.line-scdn.net/liff/1.0/sdk.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="things.js"></script>
     <title>Start_LIFF</title>
 </head>
@@ -17,19 +16,24 @@
         <span id='waiting'>接続できるデバイスを確認中</span>
     </p>
     <div id='hidden'>
-        <p>
-            <h2>名前</h2>
-            <h2 id='device_name'></h2>
-        </p>
+        <h2>名前</h2>
+        <h2 id='device_name'></h2>
         <table>
-            <button>オーダー１</button>
-            <button>オーダー２</button>
-            <button>オーダー３</button>
-            <button>オーダー４</button>
-            <button>オーダー５</button>
-            <button>オーダー６</button>
+            <tr>
+                <td>
+                    <button onclick="order_1()">オーダー1</button>
+                    <button onclick="order_2()">オーダー2</button>
+                    <button onclick="order_3()">オーダー3</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="order_4()">オーダー4</button>
+                    <button onclick="order_5()">オーダー5</button>
+                    <button onclick="order_6()">オーダー6</button>
+                </td>
+            </tr>
         </table>
-
     </div>
 </body>
 </html>
