@@ -47,6 +47,10 @@ void right_motor(int pin1,int pin2){
   digitalWrite(pin1,LOW);
   digitalWrite(pin2,HIGH);
 }
+void stop_motor(int pin1,int pin2){
+  digitalWrite(pin1,LOW);
+  digitalWrite(pin2,LOW);
+}
 
 void forward(){
   right_motor(MOTOR_1,MOTOR_2);
@@ -64,6 +68,10 @@ void right(){
   right_motor(MOTOR_1,MOTOR_2);
   left_motor(MOTOR_3,MOTOR_4);
 }
+void stop(){
+  stop_motor(MOTOR_1,MOTOR_2);
+  stop_motor(MOTOR_3,MOTOR_4);
+}
 
 void controller(char signal){
   switch (signal){
@@ -78,6 +86,9 @@ void controller(char signal){
     }
     case 'b':{
       back();
+    }
+    default:{
+      stop();
     }
   }
 }
@@ -124,8 +135,23 @@ void setup() {
 
 void loop() {
   while(deviceConnected){
-    char signal=Serial.read();
+    sensor_value=+4*sensor_0+2*sensor_1+sensor_2;
+    switch(sensor_value){
+      case 0:{}
+      case 1:{}
+      case 2:{}
+      case 3:{}
+      case 4:{}
+      case 5:{}
+      case 6:{}
+      case 7:{}
+      default:{
+        char signal=Serial.read();
     controller(char);
+      }
+    
+    }
+  }
   }
   delay(500);
 }
