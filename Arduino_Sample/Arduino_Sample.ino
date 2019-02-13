@@ -39,33 +39,33 @@ BLECharacteristic *notifyCharacteristic;
 bool deviceConnected=false;
 bool oldDeviceConnected=false;
 
-void left_motor(){
-  digitalWrite();
-  digitalWrite();
+void left_motor(int pin1,int pin2){
+  digitalWrite(pin1,HIGH);
+  digitalWrite(pin2,LOW);
 }
-void right_motor(){
-  digitalWrite();
-  digitalWrite();
+void right_motor(int pin1,int pin2){
+  digitalWrite(pin1,LOW);
+  digitalWrite(pin2,HIGH);
 }
 
 void forward(){
-  left_motor();
-  right_motor();
+  right_motor(MOTOR_1,MOTOR_2);
+  right_motor(MOTOR_3,MOTOR_4);
 }
 void back(){
-  left_motor();
-  right_motor();
+  left_motor(MOTOR_1,MOTOR_2);
+  left_motor(MOTOR_3,MOTOR_4);
 }
 void left(){
-  left_motor();
-  right_motor();
+  left_motor(MOTOR_1,MOTOR_2);
+  right_motor(MOTOR_3,MOTOR_4);
 }
 void right(){
-  left_motor();
-  right_motor();
+  right_motor(MOTOR_1,MOTOR_2);
+  left_motor(MOTOR_3,MOTOR_4);
 }
 
-void controller(signal){
+void controller(char signal){
   switch (signal){
     case 'l':{
       left();
@@ -123,14 +123,11 @@ void setup() {
 }
 
 void loop() {
-   char signal;
-   if(!deviveConnected &&oldDeviceConnected){
-     delay(500);
-     thingsServer->startAdvertising();
-     oldDeviceConnected=deviceConnected;
-   }
-   if(deviceConnected &&!oldDeviceConnected)
-    oldDeviceConnected=deviceConnected;
+  while(deviceConnected){
+    char signal=Serial.read();
+    controller(char);
+  }
+  delay(500);
 }
 
 //Write the two functions as almost all the same ways as examples
