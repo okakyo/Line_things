@@ -18,13 +18,15 @@
 #define PSDI_CHARACTERISTIC_UUID=""
 
 //the pin of GPIO
-#define BUTTON 0
-#define LED1 2
+#define MOTOR_1 5
+#define MOTOR_2 7
+#define MOTOR_3 9
+#define MOTOR_4 11
 
-#define MOTOR_1=5
-#define MOTOR_2=7
-#define MOTOR_3=9
-#define MOTOR_4=11
+#define SENSOR_0 1
+#define SENSOR_1 2
+#define SENSOR_2 3
+#define SENSOR_3 4
 
 //The setting of BLE Server
 
@@ -39,6 +41,8 @@ BLECharacteristic *notifyCharacteristic;
 bool deviceConnected=false;
 bool oldDeviceConnected=false;
 
+
+//モーターコントローラー
 void left_motor(int pin1,int pin2){
   digitalWrite(pin1,HIGH);
   digitalWrite(pin2,LOW);
@@ -93,6 +97,7 @@ void controller(char signal){
   }
 }
 
+//BLEの接続
 class serverCallbacks public BLEServerCallbacks{
   void onConnect(BLEServer *pServer){
     deviceConnected=true;
@@ -112,6 +117,7 @@ class writeCallback public BLECharacteristicCallbacks{
     }
 };
 
+//メインコントローラー
 void setup() {
   Serial.begin(115200);
   
@@ -120,6 +126,11 @@ void setup() {
   pinMode(MOTOR_3,OUTPUT);
   pinMode(MOTOR_4,OUTPUT);
   
+  pinMode(SENSOR_0,INPUT);
+  pinMode(SENSOR_1,INPUT);
+  pinMode(SENSOR_2,INPUT);
+  pinMode(SENSOR_3,INPUT);
+
   BLEDevice::init("");
   BLEDevice::setEncryptionLevel(ESP_SEC_ENCRYPT_NO_MTIM);
 
@@ -135,6 +146,7 @@ void setup() {
 
 void loop() {
   while(deviceConnected){
+    sensor_0
     sensor_value=+4*sensor_0+2*sensor_1+sensor_2;
     switch(sensor_value){
       case 0:{}
@@ -146,12 +158,10 @@ void loop() {
       case 6:{}
       case 7:{}
       default:{
-        char signal=Serial.read();
-    controller(char);
+        stop(); 
       }
     
     }
-  }
   }
   delay(500);
 }
