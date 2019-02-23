@@ -4,7 +4,7 @@
 #include<BLE2902.h>
 
 // The name of Device 
-#define DEVICE_NAME=""
+#define DEVICE_NAME="Robot_DELTA"
 
 //The setting of UUID
 
