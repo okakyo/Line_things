@@ -130,8 +130,8 @@ void setup(){
 	pinMode(NoisePin,OUTPUT);  
 	pinMode(DEV_ADR, INPUT_PULLUP);
       
-        BLEDevice::init("");
-        BLEDevice::setEncryptionLevel(ESP_BLE_SEC_ENCRYPT_NO_MITM);
+  BLEDevice::init("");
+  BLEDevice::setEncryptionLevel(ESP_BLE_SEC_ENCRYPT_NO_MITM);
 
 	// Security Settings
 	BLESecurity *thingsSecurity = new BLESecurity();
@@ -187,7 +187,6 @@ void setupServices(void) {
   TempCharacteristic = envService->createCharacteristic(PSDI_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ);
   TempCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED | ESP_GATT_PERM_WRITE_ENCRYPTED);
 
-  HumidService = thingsServer->createService(PSDI_SERVICE_UUID);
   Humidharacteristic = envdService->createCharacteristic(PSDI_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ);
   HumidCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED | ESP_GATT_PERM_WRITE_ENCRYPTED);
  // Setup PSDI Service
@@ -196,7 +195,7 @@ void setupServices(void) {
   psdiCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED);
   // Set PSDI (Product Specific Device ID) value
   uint64_t macAddress = ESP.getEfuseMac();
-  HumidCharacteristic->setValue((uint8_t*) &macAddress, sizeof(macAddress));
+  psdiCharacteristic->setValue((uint8_t*) &macAddress, sizeof(macAddress));
 
   // Start BLE Services
   userService->start();
