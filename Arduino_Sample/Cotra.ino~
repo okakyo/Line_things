@@ -2,7 +2,6 @@
 #include <BLEDevice.h>
 #include <BLEUtils.h>
 #include <BLE2902.h>
-#include<Wire.h>
 
 // Device Name: Maximum 30 bytes
 #define DEVICE_NAME "Cotra Dev"
@@ -13,69 +12,34 @@
 #define WRITE_CHARACTERISTIC_UUID "E9062E71-9E62-4BC6-B0D3-35CDCD9B027B"
 #define NOTIFY_CHARACTERISTIC_UUID "62FBD229-6EDD-4D1A-B554-5C4E1BB29169"
 
-#define ENV_Service_UUID ""
-#define TEMP_CHARACTERISTIC_UUID "E9062E71-9E62-4BC6-B0D3-35CDCD9B027B"
-#define HUMID_CHARACTERISTIC_UUID "62FBD229-6EDD-4D1A-B554-5C4E1BB29169"
 // PSDI Service UUID: Fixed value for Developer Trial
 #define PSDI_SERVICE_UUID "E625601E-9E55-4597-A598-76018A0D293D"
 #define PSDI_CHARACTERISTIC_UUID "26E2B12B-85F0-4F3F-9FDD-91D114270E6E"
 
 #define NoisePin 15
-#define DEV_ADR
 
-const int anode_pins[] = {12, 8, 5, 3, 2, 11, 6, 4};  
-const int cathode_pins[] = {7, 9, 10, 13}; 
+//@ƒZƒOƒƒ“ƒg‚Ì•\Ž¦ƒvƒƒOƒ‰ƒ€
+const int anode_pins[] = {12, 8, 5, 3, 2, 11, 6, 4};    // ƒAƒm[ƒh‚ÉÚ‘±‚·‚éArduino‚Ìƒsƒ“
+const int cathode_pins[] = {7, 9, 10, 13};  // ƒJƒ\[ƒh‚ÉÚ‘±‚·‚éArduino‚Ìƒsƒ“
 const int number_of_anode_pins = sizeof(anode_pins) / sizeof(anode_pins[0]);
 const int number_of_cathode_pins = sizeof(cathode_pins) / sizeof(cathode_pins[0]);
 
 bool CheckAlert false
 
-ufloat_t TempHumid[2];
-
-void ShowEnv(){
-  Wire.beginTransmission(DEV_ADR);
-  Wire.endTransmission();
-
-  // æ¹¿åº¦ãƒ»æ¸©åº¦ãƒ‡ãƒ¼ã‚¿å–å¾—è¦æ±‚
-  Wire.beginTransmission(DEV_ADR);
-  Wire.write(0x03);         // ãƒ¬ã‚¸ã‚¹ã‚¿èª­ã¿å–ã‚Šã‚³ãƒžãƒ³ãƒ‰
-  Wire.write(0x00);         // èª­ã¿å–ã‚Šé–‹å§‹ãƒ¬ã‚¸ã‚¹ã‚¿ç•ªå·
-  Wire.write(0x04);         // èª­ã¿å–ã‚Šãƒ‡ãƒ¼ã‚¿æ•°    
-  Wire.endTransmission();
-
-  // ãƒ‡ãƒ¼ã‚¿ã®å–å¾—
-  Wire.requestFrom(DEV_ADR,8); 
-  if (Wire.available() >= 8) {
-    for (uint8_t i=0; i<8; i++) {
-      data[i] = Wire.read();
-    }
-    
-    float rh = ((float)(data[2]*256+data[3]))/10; // æ¹¿åº¦
-    
-    TempHumid[0]=rh;
-    float tp = ((float)(data[4]*256+data[5]))/10; // æ¸©åº¦
-    TempHumid[1]=fp;
-
-    // æ¹¿åº¦ãƒ»æ¸©åº¦ã®è¡¨ç¤º
-    Serial.print("T=");
-    Serial.print(tp);
-    Serial.print("c");
-    Serial.print(" H=");
-    Serial.print(rh);
-    Serial.println("%");
-}
 
 const int digits[] = {
   0b00111111, // 0
   0b01101101, // 5
 };
  
+// 1Œ…‚Ì”Žš(n)‚ð•\Ž¦‚·‚é
 void display_number (int n) {
   for (int i = 0; i < number_of_anode_pins; i++) {
     digitalWrite(anode_pins[i], digits[n] & (1 << i) ? HIGH : LOW);
   }
 }
  
+// ƒAƒm[ƒh‚ð‚·‚×‚ÄLOW‚É‚·‚é
 void clear_segments() {
   for (int j = 0; j < number_of_anode_pins; j++) {
     digitalWrite(anode_pins[j], LOW);
@@ -85,14 +49,15 @@ void clear_segments() {
 void display_numbers (int n) {
   for (int i = 0; i < number_of_cathode_pins; i++) {
     digitalWrite(cathode_pins[i], LOW);
-    display_number(n % 10); 
+    display_number(n % 10); // ÅŒã‚ÌˆêŒ…‚ð•\Ž¦‚·‚é
     delay(1);
     clear_segments();
     digitalWrite(cathode_pins[i], HIGH);
-    n = n / 10; 
+    n = n / 10; // 10‚ÅŠ„‚é
   }
 }
 
+//BLEƒT[ƒo[—p‚ÌƒvƒƒOƒ‰ƒ€
 
 class serverCallbacks: public BLEServerCallbacks {
   void onConnect(BLEServer* pServer) {
@@ -103,6 +68,7 @@ class serverCallbacks: public BLEServerCallbacks {
     deviceConnected = false;
   }
 };
+//ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚çAƒuƒU[‚Æƒ‰ƒCƒg‚ª“_–Å
 class writeCallback: public BLECharacteristicCallbacks {
   void onWrite(BLECharacteristic *bleWriteCharacteristic) {
     std::string value = bleWriteCharacteristic->getValue();
@@ -128,7 +94,8 @@ void makeNoise(){
 void setup(){
 	Serial.begin(115200);
 	pinMode(NoisePin,OUTPUT);  
-	pinMode(DEV_ADR, INPUT_PULLUP);
+
+	pinMode(BUTTON, INPUT_PULLUP);
       
         BLEDevice::init("");
         BLEDevice::setEncryptionLevel(ESP_BLE_SEC_ENCRYPT_NO_MITM);
@@ -145,10 +112,10 @@ void setup(){
 	Serial.println("Ready to Connect");
 
 	for (int i = 0; i < number_of_anode_pins; i++) {
-    		pinMode(anode_pins[i], OUTPUT); 
+    		pinMode(anode_pins[i], OUTPUT);  // anode_pins‚ðo—Íƒ‚[ƒh‚ÉÝ’è‚·‚é
   	}
   	for (int i = 0; i < number_of_cathode_pins; i++) {
-    		pinMode(cathode_pins[i], OUTPUT)
+    		pinMode(cathode_pins[i], OUTPUT);  // cathode_pin‚ðo—Íƒ‚[ƒh‚ÉÝ’è‚·‚é
     		digitalWrite(cathode_pins[i], LOW);
   	}
 }
