@@ -55,7 +55,7 @@ void ShowEnv(){
     TempHumid[0]=rh;
     float tp = ((float)(data[4]*256+data[5]))/10; // 温度
     TempHumid[1]=fp;
-
+  
     // 湿度・温度の表示
     Serial.print("T=");
     Serial.print(tp);
@@ -154,6 +154,8 @@ void setup(){
 }
 
 void loop(){
+  //カウントを調べる関数を追加
+  ShowEnv();
 	if (deviceConnected){
 		if(CheckAlert){
 			makeNoise();
@@ -186,9 +188,10 @@ void setupServices(void) {
   envService = thingsServer->createService(PSDI_SERVICE_UUID);
   TempCharacteristic = envService->createCharacteristic(PSDI_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ);
   TempCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED | ESP_GATT_PERM_WRITE_ENCRYPTED);
-
+  TempCharacteristic->setValue(&TempHumid[0],sizeof(TempHumid[0]));
   Humidharacteristic = envdService->createCharacteristic(PSDI_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ);
   HumidCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED | ESP_GATT_PERM_WRITE_ENCRYPTED);
+  HumidCharacteristic->setValue(&TempHumid[1],sizeof(TempHumid[1]));
  // Setup PSDI Service
   psdiService = thingsServer->createService(PSDI_SERVICE_UUID);
   psdiCharacteristic = psdiService->createCharacteristic(PSDI_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ);
