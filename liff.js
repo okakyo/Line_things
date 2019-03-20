@@ -68,6 +68,11 @@ function uiToggleStateButton(pressed) {
     }
 }
 
+function uiToggleTemperature(temp) {
+   const el=$('#Temperature');
+   el.text=temp;
+}
+
 function uiToggleDeviceConnected(connected) {
     const elStatus = $("#status");
     const elControls =$("#controls");
@@ -227,6 +232,12 @@ function liffGetUserService(service) {
     }).catch(error => {
         uiStatusError(makeErrorMsg(error), false);
     });
+        // Show the temperature now
+    service.getCharacteristic(Temperature_CHARACTERISTIC_UUID).then(characteristic =>{
+        ShowTemprerature(characteristic);
+    }).catch(err=>{
+        uiStatusError(makeErrorMsg(err),false);
+    })
 }
 
 function liffGetPSDIService(service) {
@@ -263,6 +274,7 @@ function liffGetButtonStateCharacteristic(characteristic) {
     });
 }
 
+function liffGetTemperatureCharacteristic(){}
 function liffToggleDeviceLedState(state) {
     // on: 0x01
     // off: 0x00

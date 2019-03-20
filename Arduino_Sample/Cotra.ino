@@ -66,8 +66,9 @@ void ShowEnv(){
 }
 
 const int digits[] = {
-  0b00111111, // 0
-  0b01101101, // 5
+  0b00111111, // 0 =>O 
+  0b01101101, // 5 =>S 
+  //=>SOS=505で表示させる！
 };
  
 void display_number (int n) {
